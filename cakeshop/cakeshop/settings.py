@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l!i+gamsmkzv#e)afy$578ra+l%op6=^kf5_4(_b4fkp9l7z62
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['higu.su', 'www.higu.su', '185.149.146.221']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'higu.su', 'www.higu.su', '185.149.146.221']
 
 
 # Application definition

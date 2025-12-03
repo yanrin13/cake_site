@@ -9,13 +9,11 @@
 <div class="wrap">
 
         <div class="dropdown">
-          <button class="dropbtn">
-            По умолчанию <span class="arrow">▼</span>
-          </button>
+          <button class="dropbtn">По умолчанию <span class="arrow">▼</span></button>
           <div class="dropdown-content">
-            <a href="#" data-sort="cheap">Сначала дешевые</a>
-            <a href="#" data-sort="expensive">Сначала дорогие</a>
-            <a href="#" data-sort="popular">Сначала популярные</a>
+            <a href="#">Сначала дешевые</a>
+            <a href="#">Сначала дорогие</a>
+            <a href="#">Сначала популярные</a>
           </div>
         </div>
 
@@ -73,3 +71,17 @@
 {% endblock %}
 
 {% block script-name %}{% static 'main/js/basket-button.js' %}{% endblock %}
+
+<script>
+const dropdown = document.querySelector(".dropdown");
+const dropbtn = dropdown.querySelector(".dropbtn");
+
+dropbtn.addEventListener("click", (e) => {
+  e.stopPropagation(); // чтобы клик по кнопке не закрыл сам dropdown
+  dropdown.classList.toggle("open");
+});
+
+document.addEventListener("click", () => {
+  dropdown.classList.remove("open"); // закрыть при клике вне
+});
+</script>

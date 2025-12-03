@@ -81,6 +81,61 @@ body {
   background-color: var(--main-color);
   transition: width 0.3s ease;
 }
+/* Бургер */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.burger span {
+  width: 30px;
+  height: 3px;
+  background: var(--menu-text-color);
+  transition: 0.3s;
+}
+
+/* Меню скрыто */
+@media (max-width: 800px) {
+  .nav {
+    position: fixed;
+    top: 80px;
+    right: -100%;
+    width: 250px;
+    height: calc(100vh - 80px);
+    background: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    transition: 0.3s ease;
+    justify-content: flex-start !important;
+  }
+
+  .nav.active {
+    right: 0;
+  }
+
+  .burger {
+    display: flex;
+  }
+}
+
+/* Анимация бургера */
+.burger.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
 /* тортик фотка */
 .hero {
   height: 90vh;
@@ -296,30 +351,17 @@ h2 {
 }
 
 /* Кнопка сортировки */
-
-
 .dropdown {
   position: relative;
   display: inline-block;
-  font-family: var(--font2);
-  padding-top: 110px;
 }
 
 .dropbtn {
+  margin-top: 200px;
   background-color: white;
-  color: var(--menu-text-color);
+  border: 2px solid #333;
   padding: 10px 20px;
-  font-size: 18px;
-  border: 2px solid var(--menu-text-color);
-  border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.arrow {
-  font-size: 12px;
 }
 
 .dropdown-content {
@@ -327,93 +369,136 @@ h2 {
   position: absolute;
   background-color: white;
   min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  z-index: 1;
-  margin-top: 5px;
-  overflow: hidden;
-
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
 }
 
 .dropdown-content a {
-  font-family: var(--font2);
-  color: black;
-  padding: 12px 16px;
   display: block;
+  padding: 10px;
   text-decoration: none;
-  font-size: 15px;
-
+  color: black;
 }
 
 .dropdown-content a:hover {
   background-color: #f1f1f1;
 }
 
+
 .dropdown.open .dropdown-content {
   display: block;
 }
-
 
 
 /* Каталог */
 .catalog1 {
   padding-top: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 360px);
-  justify-content: space-between;
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
   padding-bottom: 50px;
 }
 
 /* Карточки */
+/* Каталог — адаптивная сетка */
+.catalog1 {
+  padding-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+  padding-bottom: 50px;
+}
+
+/* Карточка */
 .card1 {
   background-color: white;
   border-radius: 20px;
-  padding: 25px;
+  padding: 20px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 360px;
-  height: 600px;
+  height: auto;                 /* ← пусть растёт */
   box-sizing: border-box;
-  margin: 0 auto;
 }
 
+/* Фото */
 .card-img {
   width: 100%;
-  height: 240px;
-  background-color: var(--menu-text-color);
+  height: 200px;
   background-size: cover;
   background-position: center;
   border-radius: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
+/* Заголовок */
 .card1 h3 {
-  margin: 0 0 12px;
-  font-size: 20px;
-  text-align: left;
+  margin: 0 0 10px;
+  font-size: 18px;
+  width: 100%;
   font-family: var(--font1);
+}
+
+/* Описание */
+.card1 p {
+  font-size: 14px;
+  margin-bottom: 12px;
+  flex-grow: 1;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Цена */
+.price {
+  font-family: var(--font1);
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+/* Кнопки */
+.card-footer {
   width: 100%;
 }
 
-.card1 p {
-  font-size: 14px;
-  color: var(--menu-text-color);
-  text-align: left;
-  margin: 0 0 12px;
-  flex-grow: 1;
-  overflow-wrap: anywhere;   /* переносит даже самые длинные слова */
-  word-break: break-word;    /* дополнительный костыль */
+/* ------------------------------- */
+/*      АДАПТИВНЫЕ МЕДИА-ЗАПРОСЫ   */
+/* ------------------------------- */
+
+/* Планшеты */
+@media (max-width: 900px) {
+  .catalog1 {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .card-img {
+    height: 180px;
+  }
 }
 
-.price {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-family: var(--font1);
-  font-size: 20px;
+/* Телефоны */
+@media (max-width: 600px) {
+  .catalog1 {
+    grid-template-columns: 1fr; /* одна карточка в ряд */
+    gap: 20px;
+  }
+
+  .card1 {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .card-img {
+    height: 200px;
+  }
+
+  .add-to-cart {
+    width: 100%;
+    text-align: center;
+    padding: 14px;
+  }
 }
 
 /*кнопка*/
@@ -578,6 +663,9 @@ h2 {
   font-weight: bold;
   font-size: 20px;
 }
+
+
+
 
 /* кнопки счётчика */
 .quantity-wrapper {
