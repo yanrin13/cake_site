@@ -8,159 +8,159 @@
 {% block content %}
 <div class="wrap">
 
-    <div class="cake-and-text">
-      <div class="label">Вы выбрали:</div>
+  <div class="cake-and-text">
+    <div class="label">Вы выбрали:</div>
 
-<div class="candles clickable">
-  <img src="{% static 'main/img/Vector.svg' %}" width="40" height="80" alt="Выбор дизайна">
-  <img src="{% static 'main/img/Vector.svg' %}" width="40" height="80" alt="Выбор дизайна">
-  <img src="{% static 'main/img/Vector.svg' %}" width="40" height="80" alt="Выбор дизайна">
-</div>
-
-<div class="text layer0 clickable" data-layer="design">Без дизайна</div>
-
-<div class="layer cake clickable" data-layer="cake">
-  <img src="{% static 'main/img/boxes/choco-cake.png' %}" alt="Шоколадный корж">
-</div>
-<div class="text layer1 clickable" data-layer="cake">Шоколадный корж</div>
-
-<div class="layer cream clickable" data-layer="cream">
-  <img src="{% static 'main/img/boxes/vanilla-muss.png' %}" alt="Ванильный мусс">
-</div>
-<div class="text layer2 clickable" data-layer="cream">Ванильный мусс</div>
-
-<div class="layer cake2 clickable" data-layer="cake2">
-  <img src="{% static 'main/img/boxes/choco-cake.png' %}" alt="Шоколадный корж">
-</div>
-<div class="text layer3 clickable" data-layer="cake2">Шоколадный корж</div>
-
+    <div class="candles clickable">
+      <img src="{% static 'main/img/Vector.svg' %}" alt="Выбор дизайна">
+      <img src="{% static 'main/img/Vector.svg' %}" alt="Выбор дизайна">
+      <img src="{% static 'main/img/Vector.svg' %}" alt="Выбор дизайна">
     </div>
-<!-- модальное для крема -->
-<div id="cream-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-btn">×</span>
-    <h2>Выберите крем</h2>
-<div class="options-grid">
-  <div class="option" data-text="Ягодный крем-чиз" data-class="berry">
-    <img src="{% static 'main/img/rectangle/berry-cheese.png' %}" alt="Ягодный крем" />
-    <p>Ягодный крем-чиз</p>
-  </div>
-  <div class="option" data-text="Меренга" data-class="meringue">
-    <img src="{% static 'main/img/rectangle/meringue.png' %}" alt="Меренга" />
-    <p>Меренга</p>
-  </div>
-  <div class="option" data-text="Маскарпоне с малиной" data-class="raspberry-cream">
-    <img src="{% static 'main/img/rectangle/raspberries.png' %}" alt="Маскарпоне с малиной" />
-    <p>Маскарпоне с малиной</p>
-  </div>
-  <div class="option" data-text="Ванильный мусс" data-class="vanilla-muss">
-    <img src="{% static 'main/img/rectangle/vanila-cheese.png' %}" alt="Ванильный мусс" />
-    <p>Ванильный мусс</p>
-  </div>
-  <div class="option" data-text="Шоколадный крем-чиз" data-class="choco-cream">
-    <img src="{% static 'main/img/rectangle/choco-cheese.png' %}" alt="Шоколадный крем" />
-    <p>Шоколадный крем-чиз</p>
-  </div>
-  <div class="option" data-text="Лимонный курд" data-class="lemon">
-    <img src="{% static 'main/img/rectangle/lemon.png' %}" alt="Лимонный курд" />
-    <p>Лимонный курд</p>
-  </div>
-</div>
-    <button id="confirm-layer-btn">Подтвердить</button>
-  </div>
-</div>
-<!-- Модалка для первого коржа -->
-<div id="cake-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-btn">×</span>
-    <h2>Выберите первый корж</h2>
-    <div class="options-grid">
-      <div class="option" data-text="Ванильный корж" data-class="vanilla-cake">
-        <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Ванильный корж" />
-        <p>Ванильный корж</p>
-      </div>
-      <div class="option" data-text="Шоколадный корж" data-class="choco-cake">
-        <img src="{% static 'main/img/rectangle/choco-cake.png' %}" alt="Шоколадный корж" />
-        <p>Шоколадный корж</p>
-      </div>
-      <div class="option" data-text="Медовик" data-class="honey-cake">
-        <img src="{% static 'main/img/rectangle/honey.png' %}" alt="Медовик" />
-        <p>Медовик</p>
-      </div>
-      <div class="option" data-text="Морковный корж" data-class="carrot-cake">
-        <img src="{% static 'main/img/rectangle/carrot-cake.png' %}" alt="Морковный корж" />
-        <p>Морковный корж</p>
-      </div>
-      <div class="option" data-text="Кокосовый корж" data-class="coconut-cake">
-        <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Кокосовый корж" />
-        <p>Кокосовый корж</p>
-      </div>
-      <div class="option" data-text="Красный бархат" data-class="red-cake">
-        <img src="{% static 'main/img/rectangle/red-cake.png' %}" alt="Красный бархат" />
-        <p>Красный бархат</p>
-      </div>
-    </div>
-    <button id="confirm-layer-btn-cake1">Подтвердить</button>
-  </div>
-</div>
 
-<!-- Модалка для второго коржа -->
-<div id="cake2-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-btn">×</span>
-    <h2>Выберите второй корж</h2>
-    <div class="options-grid">
-      <div class="option" data-text="Ванильный корж" data-class="vanilla-cake">
-        <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Ванильный корж" />
-        <p>Ванильный корж</p>
-      </div>
-      <div class="option" data-text="Шоколадный корж" data-class="choco-cake">
-        <img src="{% static 'main/img/rectangle/choco-cake.png' %}" alt="Шоколадный корж" />
-        <p>Шоколадный корж</p>
-      </div>
-      <div class="option" data-text="Медовик" data-class="honey-cake">
-        <img src="{% static 'main/img/rectangle/honey.png' %}" alt="Медовик" />
-        <p>Медовик</p>
-      </div>
-      <div class="option" data-text="Морковный корж" data-class="carrot-cake">
-        <img src="{% static 'main/img/rectangle/carrot-cake.png' %}" alt="Морковный корж" />
-        <p>Морковный корж</p>
-      </div>
-      <div class="option" data-text="Кокосовый корж" data-class="coconut-cake">
-        <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Кокосовый корж" />
-        <p>Кокосовый корж</p>
-      </div>
-      <div class="option" data-text="Красный бархат" data-class="red-cake">
-        <img src="{% static 'main/img/rectangle/red-cake.png' %}" alt="Красный бархат" />
-        <p>Красный бархат</p>
-      </div>
-    </div>
-    <button id="confirm-layer-btn-cake2">Подтвердить</button>
-  </div>
-</div>
+    <div class="text layer0 clickable" data-layer="design">Без дизайна</div>
 
-<!-- Модальное окно выбора дизайна торта -->
-<div id="design-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-btn">×</span>
-    <h2>Выберите дизайн торта</h2>
-    <div class="options-grid">
-      <div class="option" data-text="Без дизайна" data-class="none-design">
-        <img src="{% static 'main/img/rectangle/none-design.png' %}" alt="Без дизайна">
-        <p>Без дизайна</p>
-      </div>
-      <div class="option" data-text="Лёгкий дизайн" data-class="simple-design">
-        <img src="{% static 'main/img/rectangle/simple-design.png' %}" alt="Лёгкий дизайн">
-        <p>Лёгкий дизайн</p>
-      </div>
-      <div class="option" data-text="Сложный дизайн" data-class="hard-design">
-        <img src="{% static 'main/img/rectangle/hard-design.png' %}" alt="Сложный дизайн">
-        <p>Сложный дизайн</p>
-      </div>
+    <div class="layer cake clickable" data-layer="cake">
+      <img src="{% static 'main/img/boxes/choco-cake.png' %}" alt="Шоколадный корж">
     </div>
-    <button id="confirm-design-btn">Подтвердить</button>
+    <div class="text layer1 clickable" data-layer="cake">Шоколадный корж</div>
+
+    <div class="layer cream clickable" data-layer="cream">
+      <img src="{% static 'main/img/boxes/vanilla-muss.png' %}" alt="Ванильный мусс">
+    </div>
+    <div class="text layer2 clickable" data-layer="cream">Ванильный мусс</div>
+
+    <div class="layer cake2 clickable" data-layer="cake2">
+      <img src="{% static 'main/img/boxes/choco-cake.png' %}" alt="Шоколадный корж">
+    </div>
+    <div class="text layer3 clickable" data-layer="cake2">Шоколадный корж</div>
+
   </div>
-</div>
+  <!-- модальное для крема -->
+  <div id="cream-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2>Выберите крем</h2>
+      <div class="options-grid">
+        <div class="option" data-text="Ягодный крем-чиз" data-class="berry">
+          <img src="{% static 'main/img/rectangle/berry-cheese.png' %}" alt="Ягодный крем" />
+          <p>Ягодный крем-чиз</p>
+        </div>
+        <div class="option" data-text="Меренга" data-class="meringue">
+          <img src="{% static 'main/img/rectangle/meringue.png' %}" alt="Меренга" />
+          <p>Меренга</p>
+        </div>
+        <div class="option" data-text="Маскарпоне с малиной" data-class="raspberry-cream">
+          <img src="{% static 'main/img/rectangle/raspberries.png' %}" alt="Маскарпоне с малиной" />
+          <p>Маскарпоне с малиной</p>
+        </div>
+        <div class="option" data-text="Ванильный мусс" data-class="vanilla-muss">
+          <img src="{% static 'main/img/rectangle/vanila-cheese.png' %}" alt="Ванильный мусс" />
+          <p>Ванильный мусс</p>
+        </div>
+        <div class="option" data-text="Шоколадный крем-чиз" data-class="choco-cream">
+          <img src="{% static 'main/img/rectangle/choco-cheese.png' %}" alt="Шоколадный крем" />
+          <p>Шоколадный крем-чиз</p>
+        </div>
+        <div class="option" data-text="Лимонный курд" data-class="lemon">
+          <img src="{% static 'main/img/rectangle/lemon.png' %}" alt="Лимонный курд" />
+          <p>Лимонный курд</p>
+        </div>
+      </div>
+      <button id="confirm-layer-btn">Подтвердить</button>
+    </div>
+  </div>
+  <!-- Модалка для первого коржа -->
+  <div id="cake-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2>Выберите первый корж</h2>
+      <div class="options-grid">
+        <div class="option" data-text="Ванильный корж" data-class="vanilla-cake">
+          <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Ванильный корж" />
+          <p>Ванильный корж</p>
+        </div>
+        <div class="option" data-text="Шоколадный корж" data-class="choco-cake">
+          <img src="{% static 'main/img/rectangle/choco-cake.png' %}" alt="Шоколадный корж" />
+          <p>Шоколадный корж</p>
+        </div>
+        <div class="option" data-text="Медовик" data-class="honey-cake">
+          <img src="{% static 'main/img/rectangle/honey.png' %}" alt="Медовик" />
+          <p>Медовик</p>
+        </div>
+        <div class="option" data-text="Морковный корж" data-class="carrot-cake">
+          <img src="{% static 'main/img/rectangle/carrot-cake.png' %}" alt="Морковный корж" />
+          <p>Морковный корж</p>
+        </div>
+        <div class="option" data-text="Кокосовый корж" data-class="coconut-cake">
+          <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Кокосовый корж" />
+          <p>Кокосовый корж</p>
+        </div>
+        <div class="option" data-text="Красный бархат" data-class="red-cake">
+          <img src="{% static 'main/img/rectangle/red-cake.png' %}" alt="Красный бархат" />
+          <p>Красный бархат</p>
+        </div>
+      </div>
+      <button id="confirm-layer-btn-cake1">Подтвердить</button>
+    </div>
+  </div>
+
+  <!-- Модалка для второго коржа -->
+  <div id="cake2-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2>Выберите второй корж</h2>
+      <div class="options-grid">
+        <div class="option" data-text="Ванильный корж" data-class="vanilla-cake">
+          <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Ванильный корж" />
+          <p>Ванильный корж</p>
+        </div>
+        <div class="option" data-text="Шоколадный корж" data-class="choco-cake">
+          <img src="{% static 'main/img/rectangle/choco-cake.png' %}" alt="Шоколадный корж" />
+          <p>Шоколадный корж</p>
+        </div>
+        <div class="option" data-text="Медовик" data-class="honey-cake">
+          <img src="{% static 'main/img/rectangle/honey.png' %}" alt="Медовик" />
+          <p>Медовик</p>
+        </div>
+        <div class="option" data-text="Морковный корж" data-class="carrot-cake">
+          <img src="{% static 'main/img/rectangle/carrot-cake.png' %}" alt="Морковный корж" />
+          <p>Морковный корж</p>
+        </div>
+        <div class="option" data-text="Кокосовый корж" data-class="coconut-cake">
+          <img src="{% static 'main/img/rectangle/vanila-and-coconut.png' %}" alt="Кокосовый корж" />
+          <p>Кокосовый корж</p>
+        </div>
+        <div class="option" data-text="Красный бархат" data-class="red-cake">
+          <img src="{% static 'main/img/rectangle/red-cake.png' %}" alt="Красный бархат" />
+          <p>Красный бархат</p>
+        </div>
+      </div>
+      <button id="confirm-layer-btn-cake2">Подтвердить</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно выбора дизайна торта -->
+  <div id="design-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">×</span>
+      <h2>Выберите дизайн торта</h2>
+      <div class="options-grid">
+        <div class="option" data-text="Без дизайна" data-class="none-design">
+          <img src="{% static 'main/img/rectangle/none-design.png' %}" alt="Без дизайна">
+          <p>Без дизайна</p>
+        </div>
+        <div class="option" data-text="Лёгкий дизайн" data-class="simple-design">
+          <img src="{% static 'main/img/rectangle/simple-design.png' %}" alt="Лёгкий дизайн">
+          <p>Лёгкий дизайн</p>
+        </div>
+        <div class="option" data-text="Сложный дизайн" data-class="hard-design">
+          <img src="{% static 'main/img/rectangle/hard-design.png' %}" alt="Сложный дизайн">
+          <p>Сложный дизайн</p>
+        </div>
+      </div>
+      <button id="confirm-design-btn">Подтвердить</button>
+    </div>
+  </div>
 
 
   <div class="options">
@@ -171,7 +171,7 @@
       <label><input type="radio" name="soaking">Кофейная</label>
       <label><input type="radio" name="soaking">Молочная</label>
       <label><input type="radio" name="soaking">Апельсиновая</label>
-      <label><input type="radio" name="soaking" checked >Без пропитки</label>
+      <label><input type="radio" name="soaking" checked>Без пропитки</label>
     </div>
 
     <div class="option-group">
@@ -192,48 +192,25 @@
     </div>
   </div>
 
-    <div class="com-and-pay">
-      <div class="comment">
-        <h4>Комментарий к заказу</h4>
-
-        <div class="textarea-wrapper">
-          <textarea placeholder="Прикрепите фото дизайна, уточните детали..."></textarea>
-          <label class="file-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18.364 5.636a5 5 0 0 0-7.071 0l-7.071 7.07a3.5 3.5 0 0 0 4.95 4.95l7.071-7.07a2 2 0 0 0-2.828-2.83L8.464 13.05" />
-            </svg>
-            <input type="file" multiple style="display: none">
-          </label>
-        </div>
-
-        <div class="attached-files">
-          Файлы не выбраны
-        </div>
-      </div>
-
-
-      <div class="payment-card">
+  <div class="com-and-pay">
+    <div class="payment-card">
       <h1>Ваша корзина</h1>
       <div class="price-row">
         <span>Товары</span>
-        <span></span>
+        <span class="goods-price">0 ₽</span>
       </div>
       <div class="price-row">
         <span>Скидка</span>
-        <span></span>
+        <span class="discount-price">0 ₽</span>
       </div>
       <div class="price-row total">
         <span>Стоимость</span>
-        <span></span>
+        <span class="total-price">0 ₽</span>
       </div>
 
-      <h2>Дата и время получения</h2>
-      <input type="date" id="date" name="date" />
-      <input type="time" id="time" name="time" min="09:00" max="20:00" />
-
-      <button class="buy-button" id="buy-button-in-custom">Оформить заказ</button>
-      </div>
+      <button class="buy-button" id="buy-button-in-custom">Добавить в корзину</button>
     </div>
+  </div>
 </div>
 <script>
   window.STATIC_URL = "{% static '' %}";

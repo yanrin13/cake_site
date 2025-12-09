@@ -8,80 +8,118 @@
 {% block content %}
 <div class="wrap">
 
-        <div class="dropdown">
-          <button class="dropbtn">По умолчанию <span class="arrow">▼</span></button>
-          <div class="dropdown-content">
-            <a href="#">Сначала дешевые</a>
-            <a href="#">Сначала дорогие</a>
-            <a href="#">Сначала популярные</a>
-          </div>
-        </div>
+  <div class="sort-wrapper sort-right"> <!-- sort-right / sort-left / sort-center — как хочешь -->
+    <button class="sort-button" type="button">
+      <span class="current-sort">Сначала дорогие</span>
+      <svg class="arrow" width="14" height="9" viewBox="0 0 14 9" fill="none">
+        <path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+      </svg>
+    </button>
 
-        {% if user.is_authenticated and user.profile.role == 'MA' %}
-          <a id="secret-button" href="{% url 'cake_manage' %}">
-            Редактировать карточки
-          </a>
+    <div class="sort-dropdown">
+      <button class="sort-option active" data-sort="price-desc">Сначала дорогие</button>
+      <button class="sort-option" data-sort="price-asc">Сначала дешёвые</button>
+    </div>
+  </div>
+
+
+  {% if user.is_authenticated and user.profile.role == 'MA' %}
+  <a id="secret-button" href="{% url 'cake_manage' %}">
+    Редактировать карточки
+  </a>
+  {% endif %}
+
+
+  <div class="catalog1">
+    {% for el in cards %}
+    <div class="card1" data-price="{{ el.price }}" data-popularity="97" data-cake-id="{{ el.id }}">
+
+      <div class="card-img" style="background-image: url('{{ el.image.url }}')"></div>
+
+      <h3>{{ el.name }}</h3>
+      <p>{{ el.description }}</p>
+
+      <div class="price">{{ el.price|floatformat:0|intcomma }} руб.</div>
+
+      <div class="card-footer">
+        <div class="quantity-wrapper hidden">
+          <div class="first-but">
+            <button class="decrement">−</button>
+            <span class="quantity">1</span>
+            <button class="increment">+</button>
+          </div>
+          <button class="cart-icon-button" onclick="window.location.href='{% url 'basket' %}'">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </button>
+        </div>
+        {% if user.is_authenticated %}
+        <a href="{% url 'add_to_cart' el.id %}" class="add-btn add-to-cart" data-id="{{ el.id }}"
+          data-name="{{ el.name }}" data-image="{{ el.image.url }}" data-price="{{ el.price }}">
+          Добавить в корзину
+        </a>
+        {% else %}
+        <a href="{% url 'login' %}" class="guest-btn add-to-cart">
+          Добавить в корзину
+        </a>
         {% endif %}
 
-
-      <div class="catalog1">
-        {% for el in cards %}
-        <div class="card1" data-price="{{ el.price }}" data-popularity="97" data-cake-id="{{ el.id }}">
-
-          <div class="card-img" style="background-image: url('{{ el.image.url }}')"></div>
-
-          <h3>{{ el.name }}</h3>
-          <p>{{ el.description }}</p>
-
-          <div class="price">{{ el.price|floatformat:0|intcomma }} руб.</div>
-
-          <div class="card-footer">
-            <div class="quantity-wrapper hidden">
-              <div class="first-but">
-                <button class="decrement">−</button>
-                <span class="quantity">1</span>
-                <button class="increment">+</button>
-              </div>
-              <button class="cart-icon-button" onclick="window.location.href='{% url 'basket' %}'">
-                <i class="fa-solid fa-cart-shopping"></i>
-              </button>
-            </div>
-            {% if user.is_authenticated  %}
-            <a href="{% url 'add_to_cart' el.id %}" class="add-btn add-to-cart"
-               data-id="{{ el.id }}"
-               data-name="{{ el.name }}"
-               data-image="{{ el.image.url }}"
-               data-price="{{ el.price }}">
-               Добавить в корзину
-            </a>
-            {% else %}
-            <a href="{% url 'login' %}" class="guest-btn add-to-cart">
-                Добавить в корзину
-            </a>
-            {% endif %}
-
-          </div>
-
-        </div>
-        {% endfor %}
       </div>
 
+    </div>
+    {% endfor %}
+  </div>
+
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sortButton = document.querySelector('.sort-button');
+    const dropdown = document.querySelector('.sort-dropdown');
+    const options = document.querySelectorAll('.sort-option');
+    const currentText = sortButton.querySelector('.current-sort');
+
+    sortButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sortButton.classList.toggle('active');
+      dropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', () => {
+      sortButton.classList.remove('active');
+      dropdown.classList.remove('open');
+    });
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        // Обновляем текст кнопки
+        currentText.textContent = option.textContent.trim();
+
+        // Меняем активный пункт
+        options.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+
+        // Сортируем
+        const container = document.querySelector('.catalog1');
+        const cards = Array.from(container.querySelectorAll('.card1'));
+
+        const isAsc = option.dataset.sort === 'price-asc';
+
+        cards.sort((a, b) => {
+          const priceA = parseInt(a.dataset.price);
+          const priceB = parseInt(b.dataset.price);
+          return isAsc ? priceA - priceB : priceB - priceA;
+        });
+
+        cards.forEach(card => container.appendChild(card));
+
+        // Закрываем дропдаун
+        sortButton.classList.remove('active');
+        dropdown.classList.remove('open');
+      });
+    });
+  });
+</script>
 
 {% endblock %}
 
 {% block script-name %}{% static 'main/js/basket-button.js' %}{% endblock %}
-
-<script>
-const dropdown = document.querySelector(".dropdown");
-const dropbtn = dropdown.querySelector(".dropbtn");
-
-dropbtn.addEventListener("click", (e) => {
-  e.stopPropagation(); // чтобы клик по кнопке не закрыл сам dropdown
-  dropdown.classList.toggle("open");
-});
-
-document.addEventListener("click", () => {
-  dropdown.classList.remove("open"); // закрыть при клике вне
-});
-</script>
