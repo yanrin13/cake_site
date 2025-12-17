@@ -2,168 +2,173 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Чат с кондитером</title>
   <link rel="stylesheet" href="{% static 'main/css/chat.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
-<body>
-<div class="chat-wrapper">
 
-  {% if request.user.profile.role == "MA" %}
+<body>
+  <div class="chat-wrapper">
+
+    {% if request.user.profile.role == "MA" %}
     <div class="chat-list">
       {% for item in chats %}
-        <button onclick="openChat({{ item.chat.id }}, '{{ item.chat.customer.username }}')" id="chat-btn-{{ item.chat.id }}">
-          {{ item.chat.customer.username }}
-          {% if item.has_unread %}
-            <span class="unread-dot">•</span>
-          {% endif %}
-        </button>
+      <button onclick="openChat({{ item.chat.id }}, '{{ item.chat.customer.username }}')"
+        id="chat-btn-{{ item.chat.id }}">
+        {{ item.chat.customer.username }}
+        {% if item.has_unread %}
+        <span class="unread-dot">•</span>
+        {% endif %}
+      </button>
       {% empty %}
-        <p>No chats yet</p>
+      <p>No chats yet</p>
       {% endfor %}
     </div>
-  {% else %}
+    {% else %}
     <div class="chat-list">
       <button onclick="openChat({{ chat.id }}, '{{ chat.manager.username }}')" id="chat-btn-{{ chat.id }}">
         {{ chat.manager.username }}
         {% if has_unread %}
-          <span class="unread-dot">•</span>
+        <span class="unread-dot">•</span>
         {% endif %}
       </button>
     </div>
-  {% endif %}
+    {% endif %}
 
-  <div class="chat-container">
-    <div id="chat-log"></div>
-    <div class="chat-input">
-      <span id="attached-file"></span>
-      <input id="chat-message-input" type="text" placeholder="Сообщение">
-      <label for="chat-image-input" class="file-label">
-        <i class="fa-solid fa-plus"></i>
-      </label>
-      <input id="chat-image-input" type="file" accept="image/*">
-      <button id="chat-message-submit"><i class="fa-solid fa-paper-plane"></i></button>
+    <div class="chat-container">
+      <div id="chat-log"></div>
+      <div class="chat-input">
+        <span id="attached-file"></span>
+        <input id="chat-message-input" type="text" placeholder="Сообщение">
+        <label for="chat-image-input" class="file-label">
+          <i class="fa-solid fa-plus"></i>
+        </label>
+        <input id="chat-image-input" type="file" accept="image/*">
+        <button id="chat-message-submit"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
     </div>
+
   </div>
 
-</div>
 
+  <script>
+    let chatSocket = null;
+    let currentChatId = null;
 
-<script>
-let chatSocket = null;
-let currentChatId = null;
+    const messageInput = document.querySelector('#chat-message-input');
+    const imageInput = document.querySelector('#chat-image-input');
+    const attachedFile = document.querySelector('#attached-file');
 
-const messageInput = document.querySelector('#chat-message-input');
-const imageInput = document.querySelector('#chat-image-input');
-const attachedFile = document.querySelector('#attached-file');
+    // Показываем выбранный файл
+    imageInput.addEventListener('change', () => {
+      attachedFile.textContent = imageInput.files.length > 0 ? imageInput.files[0].name : '';
+    });
 
-// Показываем выбранный файл
-imageInput.addEventListener('change', () => {
-  attachedFile.textContent = imageInput.files.length > 0 ? imageInput.files[0].name : '';
-});
-
-// Добавление сообщения в чат
-function appendMessage(sender, text, image, timestamp) {
-  const chatLog = document.querySelector('#chat-log');
-  let line = `<div style="margin-bottom:8px;">`;
-  line += `<b>${sender}:</b> ${text || ''}`;
-  if (image) line += `<br><img src="${image}" width="150">`;
-  if (timestamp) line += `<div style="font-size:10px;color:#999;">${timestamp}</div>`;
-  line += `</div>`;
-  chatLog.innerHTML += line;
-  chatLog.scrollTop = chatLog.scrollHeight;
-}
-
-// Открытие чата
-function openChat(chatId, username) {
-  if (chatSocket) chatSocket.close();
-
-  document.querySelector('#chat-log').innerHTML = '';
-  currentChatId = chatId;
-
-  // Убираем индикатор непрочитанных
-  const btn = document.getElementById('chat-btn-' + chatId);
-  if (btn) {
-    const dot = btn.querySelector('.unread-dot');
-    if (dot) dot.remove();
-  }
-
-  // Загрузка старых сообщений
-  fetch(`/chat/messages/${chatId}/`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(msg => {
-        appendMessage(msg.sender, msg.message, msg.image, msg.timestamp);
-      });
-    })
-    .catch(err => console.error(err));
-
-  // WebSocket
-  chatSocket = new WebSocket(
-    (window.location.protocol === "https:" ? "wss://" : "ws://") +
-    window.location.host +
-    '/ws/chat/' + chatId + '/'
-  );
-
-  chatSocket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
-    appendMessage(data.sender, data.message, data.image, data.timestamp);
-
-    // Если сообщение из другого чата — показываем точку
-    if (currentChatId !== chatId) {
-      const btn = document.getElementById('chat-btn-' + chatId);
-      if (btn && !btn.querySelector('.unread-dot')) {
-        btn.innerHTML += ' <span class="unread-dot">•</span>';
-      }
+    // Добавление сообщения в чат
+    function appendMessage(sender, text, image, timestamp) {
+      const chatLog = document.querySelector('#chat-log');
+      let line = `<div style="margin-bottom:8px;">`;
+      line += `<b>${sender}:</b> ${text || ''}`;
+      if (image) line += `<br><img src="${image}" width="300">`;
+      if (timestamp) line += `<div style="font-size:10px;color:#999;">${timestamp}</div>`;
+      line += `</div>`;
+      chatLog.innerHTML += line;
+      chatLog.scrollTop = chatLog.scrollHeight;
     }
-  };
 
-  chatSocket.onclose = function() {
-    console.error('Chat socket closed unexpectedly');
-  };
-}
+    // Открытие чата
+    function openChat(chatId, username) {
+      if (chatSocket) chatSocket.close();
 
-// Отправка сообщения
-document.querySelector('#chat-message-submit').onclick = function() {
-  const messageText = messageInput.value.trim();
+      document.querySelector('#chat-log').innerHTML = '';
+      currentChatId = chatId;
 
-  if (!chatSocket || chatSocket.readyState !== WebSocket.OPEN) {
-    alert("Сначала выберите чат!");
-    return;
-  }
+      // Убираем индикатор непрочитанных
+      const btn = document.getElementById('chat-btn-' + chatId);
+      if (btn) {
+        const dot = btn.querySelector('.unread-dot');
+        if (dot) dot.remove();
+      }
 
-  if (!messageText && imageInput.files.length === 0) {
-    alert("Нельзя отправить пустое сообщение!");
-    return;
-  }
+      // Загрузка старых сообщений
+      fetch(`/chat/messages/${chatId}/`)
+        .then(res => res.json())
+        .then(data => {
+          data.forEach(msg => {
+            appendMessage(msg.sender, msg.message, msg.image, msg.timestamp);
+          });
+        })
+        .catch(err => console.error(err));
 
-  if (imageInput.files.length > 0) {
-    const reader = new FileReader();
-    reader.onload = function() {
-      chatSocket.send(JSON.stringify({
-        'message': messageText,
-        'image': reader.result
-      }));
-      attachedFile.textContent = '';
-    };
-    reader.readAsDataURL(imageInput.files[0]);
-  } else {
-    chatSocket.send(JSON.stringify({ 'message': messageText }));
-  }
+      // WebSocket
+      chatSocket = new WebSocket(
+        (window.location.protocol === "https:" ? "wss://" : "ws://") +
+        window.location.host +
+        '/ws/chat/' + chatId + '/'
+      );
 
-  messageInput.value = '';
-  imageInput.value = '';
-}
+      chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        appendMessage(data.sender, data.message, data.image, data.timestamp);
 
-// Автооткрытие чата для покупателя
-{% if request.user.profile.role == "CU" and request.user.chats.first %}
-  openChat({{ request.user.chats.first.id }}, "{{ request.user.username }}");
-{% endif %}
+        // Если сообщение из другого чата — показываем точку
+        if (currentChatId !== chatId) {
+          const btn = document.getElementById('chat-btn-' + chatId);
+          if (btn && !btn.querySelector('.unread-dot')) {
+            btn.innerHTML += ' <span class="unread-dot">•</span>';
+          }
+        }
+      };
 
-</script>
+      chatSocket.onclose = function () {
+        console.error('Chat socket closed unexpectedly');
+      };
+    }
+
+    // Отправка сообщения
+    document.querySelector('#chat-message-submit').onclick = function () {
+      const messageText = messageInput.value.trim();
+
+      if (!chatSocket || chatSocket.readyState !== WebSocket.OPEN) {
+        alert("Сначала выберите чат!");
+        return;
+      }
+
+      if (!messageText && imageInput.files.length === 0) {
+        alert("Нельзя отправить пустое сообщение!");
+        return;
+      }
+
+      if (imageInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          chatSocket.send(JSON.stringify({
+            'message': messageText,
+            'image': reader.result
+          }));
+          attachedFile.textContent = '';
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+      } else {
+        chatSocket.send(JSON.stringify({ 'message': messageText }));
+      }
+
+      messageInput.value = '';
+      imageInput.value = '';
+    }
+
+    // Автооткрытие чата для покупателя
+    {% if request.user.profile.role == "CU" and request.user.chats.first %}
+    openChat({{ request.user.chats.first.id }}, "{{ request.user.username }}");
+    {% endif %}
+
+  </script>
 
 </body>
+
 </html>
